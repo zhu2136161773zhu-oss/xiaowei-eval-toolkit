@@ -62,6 +62,31 @@ def check_cases():
     step(f"cases OK ({len(cases)} cases: {by})")
 
 
+def check_no_page_jump():
+    """
+    用例不得触发「跳转新页面」—— 回归保护。
+
+    2026-11-04 实测发现：小微在生成小工具时会跳转到独立页面，
+    对话被打断，回复根本无法采集，采集链路直接断掉。
+    因此所有用例的每一轮指令都不得包含「生成工具」类表述。
+
+    工具类能力已单独归入 D 套 boundary 的「能力边界洞察」分类，
+    且只问能力说明、不要求实际生成，故不会触发跳转。
+    """
+    import re
+    import gen_cases
+    cases = gen_cases.generate("all", "all")
+    trig = re.compile(gen_cases.TRIGGER_PATTERN)
+    bad = []
+    for c in cases:
+        for i, t in enumerate(c["turns"]):
+            if trig.search(t):
+                bad.append(f"{c['case_id']} 第{i+1}轮: {t[:40]}")
+    assert not bad, ("用例触发了页面跳转风险（会导致回复无法采集）:\n  "
+                      + "\n  ".join(bad))
+    step(f"no page-jump risk OK ({len(cases)} cases checked)")
+
+
 def check_detector_precision():
     """
     检测器精确率回归 —— 防止「误报比真问题还多」。
@@ -177,7 +202,8 @@ def main():
     print("=" * 60)
     print("小微评测工具包 · 项目自检")
     print("=" * 60)
-    checks = [check_syntax, check_cases, check_detector_precision, check_analyzer, check_report]
+    checks = [check_syntax, check_cases, check_no_page_jump, check_detector_precision,
+               check_analyzer, check_report]
     failed = 0
     for fn in checks:
         try:

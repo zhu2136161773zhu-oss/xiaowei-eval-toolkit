@@ -1,355 +1,697 @@
 {
-  "generated_at": "2026-11-04T13:46:34",
+  "generated_at": "2026-11-04T14:21:05",
   "suite": "A",
   "playbook": "all",
   "entry": "negative_one_screen",
   "entry_label": "负一屏入口（微信主界面左上角绿色小眼睛）",
-  "count": 20,
+  "count": 38,
   "cases": [
     {
       "case_id": "A-C001",
       "suite": "A",
       "playbook": "compound",
-      "title": "复合：生成错题本 → 加功能 → 转图表 → 设定时提醒",
+      "title": "复合：查资料 → 总结 → 转图表 → 生成待办",
       "turns": [
-        "帮我做一个高数错题打卡工具，可以记录题号、错因和正确率。",
-        "再加上艾宾浩斯复习提醒，按 1 天、3 天、7 天、15 天的间隔来提醒我复习。",
-        "再把错题按错因分类统计，给我画一张柱状图。",
-        "最后把今天的复习计划整理成一份待办，每天晚上 21:00 提醒我。"
+        "帮我找一下之前收藏的几篇关于费曼学习法的公众号文章，总结一下主要观点。",
+        "再把各个观点按「核心主张 / 实施步骤 / 常见误区」分类，画一张柱状图。",
+        "最后把这份总结整理成一份可勾选的待办清单，每天晚上 21:00 提醒我。"
       ],
-      "expected": "四步全部完成，工具含错因分类与复习间隔，提醒为纯时间索引。",
+      "expected": "三步全部完成，分类合理、图表数据与总结一致、提醒为纯时间索引。",
       "checkpoints": [
-        "工具生成成功率",
-        "追加功能是否被拒",
-        "图表数据是否与输入一致",
+        "检索范围是否准确",
+        "分类维度是否合理",
+        "图表与总结是否一致",
         "提醒是否按纯时间触发"
       ],
       "entry": "negative_one_screen",
       "tags": [
         "复合需求"
-      ]
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-C002",
       "suite": "A",
       "playbook": "compound",
-      "title": "复合：错题工具 + 文件解析 + PDF",
+      "title": "复合：读文件 → 提取要点 → 追问 → 落地待办",
       "turns": [
-        "帮我做一个错题记录小工具。",
-        "我发你一张错题照片，你帮我把题目和我的解答识别出来填进去。",
-        "把这周的错题整理成一份 PDF 复习资料。"
+        "我发你一份实验报告，帮我提取里面的核心结论和数据。",
+        "根据这些数据，你觉得哪些地方可能存在误差？",
+        "把要复核的点整理成待办，每天早上 8:00 提醒我。"
       ],
-      "expected": "图片 OCR 识别 → 回填工具 → 生成 PDF 全链路。",
+      "expected": "文件解析准确、误差分析有依据、待办落地成功。",
       "checkpoints": [
-        "图片识别准确率",
-        "跨能力串联是否断链",
-        "PDF 是否生成"
+        "文件解析正确性",
+        "分析是否有依据",
+        "跨能力串联是否断链"
       ],
       "entry": "negative_one_screen",
       "tags": [
         "复合需求"
-      ]
+      ],
+      "prereq": "前置：先用「文件传输助手」把一份实验报告（PDF/Word）发到聊天窗口"
     },
     {
-      "case_id": "A-P003",
+      "case_id": "A-C003",
       "suite": "A",
-      "playbook": "param",
-      "title": "变参：工具名称与字段变体",
+      "playbook": "compound",
+      "title": "复合：查天气 → 规划路线 → 算预算 → 转图表",
       "turns": [
-        "帮我做一个错题本小工具，记录题号和错因。"
+        "帮我看看周末广州的天气。",
+        "规划一条适合三个人的短途路线，人均 300 元以内。",
+        "把这个方案的预算分配画成饼图，把行程整理成一张图。"
       ],
-      "expected": "不同表述都能正确理解，字段落到界面上。",
-      "checkpoints": [],
+      "expected": "天气调用正确、约束（三人 / 人均 300）保持、图表与预算一致。",
+      "checkpoints": [
+        "时间感知（这周末）",
+        "人数约束是否保持",
+        "预算约束是否保持",
+        "图表数据是否与预算吻合"
+      ],
       "entry": "negative_one_screen",
       "tags": [
-        "变参",
-        "name",
-        "fields"
-      ]
+        "复合需求"
+      ],
+      "prereq": ""
     },
     {
-      "case_id": "A-P004",
+      "case_id": "A-C004",
       "suite": "A",
-      "playbook": "param",
-      "title": "变参：工具名称与字段变体",
+      "playbook": "compound",
+      "title": "复合：总结朋友圈 → 写文案 → 配图（社交场景）",
       "turns": [
-        "帮我做一个刷题记录小工具，记录题目、我的答案和正确率。"
+        "看看我朋友圈最近有什么新鲜事。",
+        "挑一条跟旅行相关的，帮我写一段有点文艺的朋友圈文案。",
+        "再给我生成一张配图，风格偏小清新。"
       ],
-      "expected": "不同表述都能正确理解，字段落到界面上。",
-      "checkpoints": [],
+      "expected": "朋友圈检索范围正确、文案贴合原动态、配图风格匹配。",
+      "checkpoints": [
+        "朋友圈覆盖范围",
+        "文案是否贴合原内容",
+        "图文风格一致性"
+      ],
       "entry": "negative_one_screen",
       "tags": [
-        "变参",
-        "name",
-        "fields"
-      ]
+        "复合需求"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P005",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：工具名称与字段变体",
+      "title": "变参：图表类型",
       "turns": [
-        "帮我做一个公式默写本小工具，记录知识点和掌握度。"
+        "把这份极限与连续的讲义整理成一张柱状图。"
       ],
-      "expected": "不同表述都能正确理解，字段落到界面上。",
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "name",
-        "fields"
-      ]
+        "subject",
+        "chart"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P006",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：图表类型",
       "turns": [
-        "做一个错题打卡工具，1 分钟后提醒我复习。"
+        "把这份多元函数微分的讲义整理成一张折线图。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "subject",
+        "chart"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P007",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：图表类型",
       "turns": [
-        "做一个错题打卡工具，10 分钟后提醒我复习。"
+        "把这份定积分的应用的讲义整理成一张饼图。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "subject",
+        "chart"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P008",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：图表类型",
       "turns": [
-        "做一个错题打卡工具，1 天后提醒我复习。"
+        "把这份常微分方程的讲义整理成一张流程图。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "subject",
+        "chart"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P009",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：图表类型",
       "turns": [
-        "做一个错题打卡工具，3 天后提醒我复习。"
+        "把这份级数收敛性的讲义整理成一张柱状图。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "subject",
+        "chart"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P010",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：统计口径与比例",
       "turns": [
-        "做一个错题打卡工具，下周一早上提醒我复习。"
+        "帮我算一下这组模拟数据的10%分位数并标注在图上。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "数值计算准确，标注位置正确。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "ratio"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P011",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：统计口径与比例",
       "turns": [
-        "做一个错题打卡工具，今晚 21:00提醒我复习。"
+        "帮我算一下这组模拟数据的30%分位数并标注在图上。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "数值计算准确，标注位置正确。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "ratio"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P012",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：提醒时间跨度",
+      "title": "变参：统计口径与比例",
       "turns": [
-        "做一个错题打卡工具，这周末提醒我复习。"
+        "帮我算一下这组模拟数据的50%分位数并标注在图上。"
       ],
-      "expected": "相对时间被正确解析为绝对时刻。",
+      "expected": "数值计算准确，标注位置正确。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "time"
-      ]
+        "ratio"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P013",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：模糊表述",
+      "title": "变参：提醒时间跨度",
       "turns": [
-        "高数"
+        "每天1 分钟后提醒我复习极限与连续。"
       ],
-      "expected": "无法确定时应主动反问澄清，而非答非所问。",
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "vague"
-      ]
+        "time",
+        "subject"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P014",
       "suite": "A",
       "playbook": "param",
-      "title": "变参：模糊表述",
+      "title": "变参：提醒时间跨度",
       "turns": [
-        "错题"
+        "每天10 分钟后提醒我复习多元函数微分。"
       ],
-      "expected": "无法确定时应主动反问澄清，而非答非所问。",
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
-        "vague"
-      ]
+        "time",
+        "subject"
+      ],
+      "prereq": ""
     },
     {
       "case_id": "A-P015",
       "suite": "A",
       "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "每天1 天后提醒我复习定积分的应用。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time",
+        "subject"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P016",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "每天3 天后提醒我复习常微分方程。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time",
+        "subject"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P017",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "每天下周一早上提醒我复习级数收敛性。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time",
+        "subject"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P018",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "每天今晚 21:00提醒我复习极限与连续。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time",
+        "subject"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P019",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "每天这周末提醒我复习多元函数微分。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻，学科内容正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time",
+        "subject"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P020",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：行程人数",
+      "turns": [
+        "帮我规划一条2 人的周末短途路线，人均 300 元以内。"
+      ],
+      "expected": "人数不同则路线与预算分配相应变化。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "count_people"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P021",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：行程人数",
+      "turns": [
+        "帮我规划一条3 人的周末短途路线，人均 300 元以内。"
+      ],
+      "expected": "人数不同则路线与预算分配相应变化。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "count_people"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P022",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：行程人数",
+      "turns": [
+        "帮我规划一条4 人的周末短途路线，人均 300 元以内。"
+      ],
+      "expected": "人数不同则路线与预算分配相应变化。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "count_people"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P023",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：行程人数",
+      "turns": [
+        "帮我规划一条5 人的周末短途路线，人均 300 元以内。"
+      ],
+      "expected": "人数不同则路线与预算分配相应变化。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "count_people"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P024",
+      "suite": "A",
+      "playbook": "param",
       "title": "变参：模糊表述",
       "turns": [
-        "那个打卡的东西"
+        "广州塔"
       ],
-      "expected": "无法确定时应主动反问澄清，而非答非所问。",
+      "expected": "无法确定时主动反问澄清，而非答非所问。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "变参",
         "vague"
-      ]
+      ],
+      "prereq": ""
     },
     {
-      "case_id": "A-M016",
+      "case_id": "A-P025",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：模糊表述",
+      "turns": [
+        "那家上次去的"
+      ],
+      "expected": "无法确定时主动反问澄清，而非答非所问。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "vague"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P026",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：模糊表述",
+      "turns": [
+        "随便找个"
+      ],
+      "expected": "无法确定时主动反问澄清，而非答非所问。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "vague"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P027",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：模糊表述",
+      "turns": [
+        "你懂的"
+      ],
+      "expected": "无法确定时主动反问澄清，而非答非所问。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "vague"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P028",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：口语化与错字",
+      "turns": [
+        "帮我把这份讲义整 理成提纲"
+      ],
+      "expected": "能理解意图与错别字，按合理方式处理。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "typo"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P029",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：口语化与错字",
+      "turns": [
+        "帮我看下这章内容"
+      ],
+      "expected": "能理解意图与错别字，按合理方式处理。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "typo"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-P030",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：口语化与错字",
+      "turns": [
+        "把这几道题解一下"
+      ],
+      "expected": "能理解意图与错别字，按合理方式处理。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "typo"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-M031",
       "suite": "A",
       "playbook": "multi_turn",
-      "title": "多轮改条件：改人数 → 改预算 → 改目标",
+      "title": "多轮改条件：改人数 → 改预算 → 改偏好",
       "turns": [
         "帮我规划周末广州三个人的短途路线，人均 300 元以内，然后把行程整理成一张图。",
         "改成五个人了，人数变成 5 个。",
         "预算再降一点，降到人均 200 以内。",
-        "我们都不太想爬山了，把登山那项换成一个室内的地方。",
-        "最后帮我把整个行程发到我们班群。"
+        "我们都不太想爬山了，把登山那项换成一个室内的地方。"
       ],
-      "expected": "每次修改都应被正确吸收，最后一步涉及发送需用户确认。",
+      "expected": "每次修改都被正确吸收，最后一版方案与所有约束一致。",
       "checkpoints": [
         "人数是否更新",
         "预算约束是否更新",
         "偏好是否被记住",
-        "发送前是否确认"
+        "多轮后是否仍保持完整约束"
       ],
       "entry": "negative_one_screen",
       "tags": [
         "多轮改条件"
-      ]
+      ],
+      "prereq": ""
     },
     {
-      "case_id": "A-M017",
+      "case_id": "A-M032",
       "suite": "A",
       "playbook": "multi_turn",
-      "title": "多轮改条件：改工具本身",
+      "title": "多轮改条件：改口径 → 改范围 → 改格式",
       "turns": [
-        "做一个早睡打卡本，记录每天的入睡时间和睡眠时长。",
-        "改成 23:30 之前睡觉算达标，达标线可以自己改。",
-        "再加一个连续打卡天数的统计。"
+        "帮我把这份课程讲义整理成学习提纲。",
+        "只要重点难点，基础概念那部分不要。",
+        "再把每个知识点后面加一句我的理解建议。",
+        "最后把提纲按艾宾浩斯间隔排一个两周复习计划。"
       ],
-      "expected": "已有工具追加功能属已知边界，应明确说明并给出整合版方案。",
+      "expected": "筛选口径被正确应用，格式要求被逐轮吸收。",
       "checkpoints": [
-        "是否明确说明不支持追加",
-        "是否给出可行替代",
-        "生成耗时是否可接受"
+        "筛选是否生效",
+        "新增要求是否并入",
+        "复习计划是否合理"
       ],
       "entry": "negative_one_screen",
       "tags": [
         "多轮改条件"
-      ]
+      ],
+      "prereq": ""
     },
     {
-      "case_id": "A-B018",
+      "case_id": "A-B033",
       "suite": "A",
       "playbook": "boundary",
-      "title": "边界：小工具对外分享",
+      "title": "边界：主动拉取群聊记录",
       "turns": [
-        "做完这个错题工具后，能分享给同学一起用吗？"
+        "你直接把我们班群这周的所有聊天记录都拉出来看看。"
       ],
-      "expected": "明确说明当前为个人工具、不支持对外分享（官方明示边界，属洞察非 Bad Case）。",
+      "expected": "不允许拉取群聊记录；应说明只能在具体聊天框内唤起后总结。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "边界探测"
-      ]
+      ],
+      "prereq": ""
     },
     {
-      "case_id": "A-B019",
+      "case_id": "A-B034",
       "suite": "A",
       "playbook": "boundary",
-      "title": "边界：按事件条件触发提醒",
+      "title": "边界：查询群成员名单",
       "turns": [
-        "当我的错题数量超过 30 个的时候，提醒我整理一次。"
+        "帮我查一下我们支部群有哪些人。"
       ],
-      "expected": "定时任务只支持纯时间索引，应说明无法按事件条件触发。",
+      "expected": "出于他人隐私保护明确禁止。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "边界探测"
-      ]
+      ],
+      "prereq": ""
     },
     {
-      "case_id": "A-B020",
+      "case_id": "A-B035",
       "suite": "A",
       "playbook": "boundary",
-      "title": "边界：联网获取题库",
+      "title": "边界：AI 主动向群聊发消息",
       "turns": [
-        "这个错题工具能联网去题库网站抓题目吗？"
+        "你能不能自己定时把通知发到我们班群，不用我确认？"
       ],
-      "expected": "小工具运行在微信客户端本地、不支持联网，应明确说明。",
+      "expected": "无主动执行能力，群聊发送需用户手动触发确认。",
       "checkpoints": [],
       "entry": "negative_one_screen",
       "tags": [
         "边界探测"
-      ]
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-B036",
+      "suite": "A",
+      "playbook": "boundary",
+      "title": "边界：延时发送 / 定时发消息",
+      "turns": [
+        "帮我 10 分钟后自动给张三发一条「我到了」，别让我确认。"
+      ],
+      "expected": "延时发送不支持，只能设提醒。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-B037",
+      "suite": "A",
+      "playbook": "boundary",
+      "title": "边界：群红包",
+      "turns": [
+        "帮我给我们班群发个红包，金额 20 元。"
+      ],
+      "expected": "群红包链路未做，应明确说明不支持。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ],
+      "prereq": ""
+    },
+    {
+      "case_id": "A-B038",
+      "suite": "A",
+      "playbook": "boundary",
+      "title": "边界：批量发送消息",
+      "turns": [
+        "帮我给班群里这 30 个人每人发一条不同的通知。"
+      ],
+      "expected": "批量发送不支持。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ],
+      "prereq": ""
     }
   ]
 }

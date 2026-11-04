@@ -81,6 +81,10 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
+# ---- Office 临时锁文件 ----
+~$*
+.~lock.*
+
 # ---- 报告输出 ----
 *.log
 report_*.pdf

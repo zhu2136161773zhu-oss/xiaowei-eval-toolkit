@@ -167,6 +167,8 @@ def run_manual(cases, cfg, out_path, entries):
     for case in cases["cases"]:
         print("\n" + "-" * 68)
         print(f"[{case['case_id']}] {case['title']}   ({case['playbook']})")
+        if case.get("prereq"):
+            print(f"  ⚠ 前置准备: {case['prereq']}")
         print(f"  期望: {case['expected']}")
         if case.get("checkpoints"):
             print(f"  观察点: {' / '.join(case['checkpoints'])}")
@@ -445,6 +447,8 @@ def run_loop(cases, cfg, out_path, rounds=None, suite_filter=None):
             print(f"\n{'=' * 68}\n第 {r} 轮循环")
             for case in pool:
                 print(f"\n>>> [{case['case_id']}] {case['title']}")
+                if case.get("prereq"):
+                    print(f"    ⚠ 前置准备: {case['prereq']}")
                 for ti, prompt in enumerate(case["turns"]):
                     limiter.wait()
                     try:
