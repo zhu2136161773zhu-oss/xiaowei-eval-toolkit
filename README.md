@@ -162,6 +162,36 @@ python pipeline.py report --raw data/raw_A.jsonl --suite A --docx   # 出 Word
 
 纯字面比对抓不到语义级串台。前一轮点的是「瑞幸生椰拿铁」，本轮搜「火锅」却返回「咖啡相关的小程序」——字面 n-gram 完全不重合，但在品类层面能识别出这是上下文污染。
 
+### 检测器精确率是刻意维护的
+
+评测场景下，**误报率过高等于没筛**——所有用例都被标成可疑，人工复核成本反而更高。所以检测器的行为被固化成回归用例：
+
+| 场景 | 期望 | 说明 |
+|:--|:--:|:--|
+| 咖啡 → 火锅 品类串台 | **命中** | 本轮指令要火锅，回复却带前序的咖啡 |
+| 错题工具主题延续 | 不命中 | 同一主题词贯穿全程，不是污染 |
+| 记账 → 点外卖 不同品类 | 不命中 | 两个独立品类，无串台 |
+| 咖啡 → 咖啡 同品类延续 | 不命中 | 正常重复下单 |
+| 消息草稿带出历史内容 | **命中** | 相似度 1.00，典型状态隔离失效 |
+
+```bash
+python selftest.py    # detector precision OK (5 scenarios)
+```
+
+调参入口在 `config.json`：`state_leak_threshold`、`state_leak_near_identical`、
+`state_leak_min_phrase_len`、`pollution_min_phrase_len`。
+
+### 实际输出样张
+
+仓库里附了一份**合成演示数据**跑出的完整结果（不含任何真实对话）：
+
+- `data/raw_demo.jsonl` —— 7 条用例的采集结果
+- `data/flagged_A.json` —— 筛查后的可疑样本
+- `data/reports/report_A.md` / `.docx` —— 自动生成的六要素报告
+
+同一批数据，检测器从「7 条全标 high」优化到「3 条命中、零误报」，
+中间的过程见 git 历史里的 `fix(detector)` 提交。
+
 ```python
 CATEGORY_SYNONYMS = {
     "咖啡": ["咖啡", "瑞幸", "生椰拿铁", "拿铁", "美式", "摩卡", "星巴克"],

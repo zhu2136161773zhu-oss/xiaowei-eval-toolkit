@@ -96,7 +96,10 @@
       "延时发送",
       "分享小工具",
       "公开分享"
-    ]
+    ],
+    "state_leak_near_identical": 0.85,
+    "state_leak_min_phrase_len": 6,
+    "pollution_min_phrase_len": 5
   },
   "report": {
     "output_dir": "data/reports",

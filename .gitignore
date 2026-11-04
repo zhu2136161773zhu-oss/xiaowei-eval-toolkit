@@ -11,13 +11,17 @@ data/*.jsonl
 data/_verify*
 data/flagged_*.json
 !data/flagged_mock.json
+!data/flagged_demo.json
 data/reports/report_*.md
 data/reports/report_*.docx
 !data/reports/report_demo.md
 !data/reports/report_demo.docx
+!data/reports/report_A.md
+!data/reports/report_A.docx
 
-# 自测夹具是合成的假数据（不含任何真实对话），必须入库供 CI 使用
+# 自测夹具与演示数据是合成的假数据（不含任何真实对话），必须入库供 CI 与评委参考
 !data/mock_sample.jsonl
+!data/raw_demo.jsonl
 
 # ---- 本地配置（含个人路径、串号、账号信息）----
 config.local.json
