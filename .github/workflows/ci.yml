@@ -42,4 +42,5 @@ jobs:
 
       - name: 清理测试产物
         if: always()
+        shell: bash
         run: rm -f cases/ci_test.json data/ci_flagged.json data/reports/ci.md
