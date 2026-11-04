@@ -184,7 +184,24 @@ def run_manual(cases, cfg, out_path, entries):
                 print(f"    [剪贴板写入失败] {e}")
                 continue
             print("    ↑ 指令已在剪贴板，请粘贴给小微")
-            raw = input("    ← 复制小微回复后回车（可直接粘贴；SKIP 跳过 / QUIT 结束）：").strip()
+            try:
+                raw = input("    ← 复制小微回复后回车（可直接粘贴；SKIP 跳过 / QUIT 结束）：").strip()
+            except (EOFError, KeyboardInterrupt):
+                # 输入流结束或用户按了 Ctrl+C —— 保存已采集内容后优雅退出
+                print("\n    [已中断，正在保存已采集内容…]")
+                fout.write(json.dumps({
+                    "session_id": session_id, "case_id": case["case_id"],
+                    "suite": case["suite"], "playbook": case["playbook"],
+                    "title": case["title"], "entry": case["entry"],
+                    "expected": case["expected"],
+                    "checkpoints": case.get("checkpoints", []),
+                    "turns": turns_out, "aborted": True,
+                    "ts": datetime.now().isoformat(timespec="seconds"),
+                }, ensure_ascii=False) + "\n")
+                fout.flush()
+                fout.close()
+                print(f"    ✓ 已保存到 {out_path}")
+                return
 
             # 若用户只是按了回车（没粘贴文本），尝试自动读剪贴板
             if raw == "":
@@ -437,7 +454,10 @@ def run_loop(cases, cfg, out_path, rounds=None, suite_filter=None):
                         continue
                     print(f"  指令({ti+1}/{len(case['turns'])}): {prompt}")
                     print("  ↑ 已放入剪贴板")
-                    raw = input("  ← 复制回复后 Ctrl+V 回车（空回车=读剪贴板 / SKIP / QUIT）：").strip()
+                    try:
+                        raw = input("  ← 复制回复后 Ctrl+V 回车（空回车=读剪贴板 / SKIP / QUIT）：").strip()
+                    except EOFError:
+                        raise KeyboardInterrupt
                     if raw.upper() == "QUIT":
                         raise KeyboardInterrupt
                     if raw == "":
