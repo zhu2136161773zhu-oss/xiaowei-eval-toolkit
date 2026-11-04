@@ -62,6 +62,62 @@ def check_cases():
     step(f"cases OK ({len(cases)} cases: {by})")
 
 
+def check_detector_precision():
+    """
+    检测器精确率回归 —— 防止「误报比真问题还多」。
+
+    真实评测里误报率过高等于没筛：所有用例都被标成可疑，人工复核成本反而更高。
+    这里用四个典型场景锁定检测器行为：
+      应命中的必须命中，不该命中的必须干净。
+    """
+    import analyze
+    cfg = {"shingle_size": 3, "state_leak_threshold": 0.34}
+
+    cases = [
+        # (场景名, turns, 检查下标, 是否应命中, 检测器)
+        ("咖啡→火锅 品类串台（应命中）", [
+            {"prompt": "帮我点一杯瑞幸的生椰拿铁去冰",
+             "reply": "好的，已经帮你调起瑞幸小程序，选好了生椰拿铁去冰，现在停在订单确认页。"},
+            {"prompt": "再帮我在附近找一家评分4.5分以上的火锅店",
+             "reply": "抱歉，检索到的都是咖啡相关的小程序，没有匹配到合适的结果，建议您手动打开大众点评。"},
+        ], 1, True, "detect_category_leak"),
+
+        ("错题主题延续（不应命中）", [
+            {"prompt": "帮我做一个错题记录小工具。",
+             "reply": "已经为你生成「错题记录本」小工具，可以记录题目、我的解答和错因。"},
+            {"prompt": "我发你一张错题照片，你帮我把题目和我的解答识别出来填进去。",
+             "reply": "图片已识别完成：题目是「求 ∫₀^π x·sin x dx」，已帮你填入错题记录本的对应字段。"},
+        ], 1, False, "detect_category_leak"),
+
+        ("记账→点外卖 不同品类（不应命中）", [
+            {"prompt": "帮我做一个记账小工具。",
+             "reply": "已经为你生成记账小工具，含金额与分类字段。"},
+            {"prompt": "今天中午吃什么好",
+             "reply": "不如试试附近的川菜馆，人均 30 元左右。"},
+        ], 1, False, "detect_category_leak"),
+
+        ("咖啡→咖啡 同品类延续（不应命中）", [
+            {"prompt": "帮我点一杯瑞幸的生椰拿铁", "reply": "已经帮你调起瑞幸小程序。"},
+            {"prompt": "再来一杯生椰拿铁", "reply": "好的，又是一杯生椰拿铁，已加入订单。"},
+        ], 1, False, "detect_category_leak"),
+
+        ("串台：消息草稿带出历史用例内容（应命中）", [
+            {"prompt": "跟光头强说明天早上来接我", "reply": "可以出发了"},
+            {"prompt": "跟光头强发消息说今天不想加班，语气委婉一点", "reply": "可以出发了"},
+        ], 1, True, "detect_state_leak"),
+    ]
+
+    failed = []
+    for name, turns, idx, should_hit, fn_name in cases:
+        fn = getattr(analyze, fn_name)
+        hits = fn(turns, idx, cfg)
+        got = len(hits) > 0
+        if got != should_hit:
+            failed.append(f"{name}: 期望{'命中' if should_hit else '不命中'}，实际{'命中' if got else '不命中'}")
+    assert not failed, "检测器精确率回归失败:\n  " + "\n  ".join(failed)
+    step(f"detector precision OK ({len(cases)} scenarios)")
+
+
 def check_analyzer():
     fixture = ROOT / "data" / "mock_sample.jsonl"
     assert fixture.exists(), "missing fixture data/mock_sample.jsonl"
@@ -121,7 +177,7 @@ def main():
     print("=" * 60)
     print("小微评测工具包 · 项目自检")
     print("=" * 60)
-    checks = [check_syntax, check_cases, check_analyzer, check_report]
+    checks = [check_syntax, check_cases, check_detector_precision, check_analyzer, check_report]
     failed = 0
     for fn in checks:
         try:

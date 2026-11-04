@@ -25,12 +25,19 @@ CJK_PUNCT = "，。！？；：、“”‘’（）《》【】…—～·"
 
 # 通用词黑名单：只由这些词构成的片段没有区分度，不能作为污染/串台证据
 GENERIC_FRAGMENTS = {
-    "小程序", "建议", "手动", "已经", "帮你", "打开", "搜索", "可以", "无法",
-    "系统", "接口", "抱歉", "检索", "相关", "结果", "好的", "一下", "什么",
+    # 高频开场白与套话
+    "小程序", "建议", "手动", "已经", "帮你", "帮你做了", "打开", "搜索", "可以",
+    "无法", "系统", "接口", "抱歉", "检索", "相关", "结果", "好的", "一下", "什么",
     "需要", "支持", "功能", "使用", "提供", "找到", "没有", "这个", "那个",
-    "目前", "暂时", "直接", "如果", "或者", "一起", "帮你", "为你", "帮你",
-    "正在", "正在为你", "订单", "确认", "页面", "服务", "选择", "规格",
-    "备注", "如下", "请问", "希望", "根据", "以及", "并且", "然后",
+    "目前", "暂时", "直接", "如果", "或者", "一起", "为你", "正在", "订单", "确认",
+    "页面", "服务", "选择", "规格", "备注", "如下", "请问", "希望", "根据", "以及",
+    "并且", "然后", "还是", "或者", "可以帮", "帮你完成", "已经帮你", "已经为你",
+    "为你生成", "帮你做好", "已为你", "已经做好", "小工具", "的工具", "的工具是",
+    "的工具，", "记录", "数据", "内容", "信息", "问题", "情况", "方式", "时候",
+    "如果是", "会不", "能不", "不多", "不少", "不客气", "有问题", "好了", "对了",
+    "生成", "创建", "制作", "整理", "设置", "添加", "完成", "帮你完成", "已经完成",
+    "的时", "时提醒", "提醒我", "每天", "每天晚上", "晚上", "一次", "起来",
+    "小微", "助手", "微信", "本地", "轻量", "运行", "客户端", "外部",
 }
 
 
@@ -154,15 +161,20 @@ def detect_context_pollution(turns, idx, cfg):
             continue
         # 找出最长连续片段，便于人工判断
         phrase = _longest_common(ngrams=shared, text=normalize(reply), size=n)
+        # 片段本身是泛词（如「已经为你」）则无区分度
+        if _is_generic(phrase):
+            continue
         length = len(phrase)
         if best is None or length > best[1]:
             best = (j, length, phrase)
 
-    if best and best[1] >= n:
+    # 要求片段长度达标（默认 5 字），避免「错题记录」这类主题延续被误判
+    min_len = cfg.get("pollution_min_phrase_len", 5)
+    if best and best[1] >= min_len:
         j, length, phrase = best
         hit.append({
             "type": "context_pollution",
-            "severity": "high" if length >= 6 else "medium",
+            "severity": "high" if length >= 8 else "medium",
             "detail": (f"本轮回复中出现了前序（第 {j+1} 轮）的文本片段「{phrase}」，"
                        f"该片段并未出现在本轮指令中，疑似上下文污染"),
             "evidence": {"leaked_from_turn": j + 1, "matched_phrase": phrase,
@@ -234,19 +246,33 @@ def detect_state_leak(turns, idx, cfg):
         if shared and (best is None or len(shared) > best[1]):
             best = (label, len(shared), sim, old)
 
+    # 判定分两档，避免通用开场白被误判为串台：
+    #   高档：整体相似度 >= near_identical（默认 0.85）—— 几乎逐字相同，
+    #         这就是典型的「草稿/内容被原样带出」，无论多短都算。
+    #   低档：相似度 >= state_leak_threshold（默认 0.34）
+    #         且连续匹配片段 >= min_phrase_len（默认 6 字）且非泛词。
     th = cfg.get("state_leak_threshold", 0.34)
-    if best and (best[1] >= 2 or best[2] >= th):
+    near = cfg.get("state_leak_near_identical", 0.85)
+    min_len = cfg.get("state_leak_min_phrase_len", 6)
+    if best:
         label, shared_n, sim, old_reply = best
         phrase = _longest_common(ngrams=(novel & shingles(old_reply, n)),
                                  text=normalize(reply), size=n)
-        hit.append({
-            "type": "state_leak",
-            "severity": "high",
-            "detail": (f"本轮回复中出现「{label}」的残留内容「{phrase or '（片段重合）'}」"
-                       f"（相似度 {sim:.2f}），疑似状态隔离失效"),
-            "evidence": {"source": label, "similarity": round(sim, 3),
-                         "shared_ngrams": shared_n, "matched_phrase": phrase},
-        })
+        if _is_generic(phrase):
+            phrase = ""
+        is_near = sim >= near
+        is_partial = (sim >= th and len(phrase) >= min_len and phrase)
+        if is_near or is_partial:
+            hit.append({
+                "type": "state_leak",
+                "severity": "high" if is_near or sim >= 0.6 else "medium",
+                "detail": (f"本轮回复中出现「{label}」的残留内容"
+                           f"「{phrase or '（整体高度雷同）'}」"
+                           f"（相似度 {sim:.2f}），疑似状态隔离失效"),
+                "evidence": {"source": label, "similarity": round(sim, 3),
+                             "shared_ngrams": shared_n, "matched_phrase": phrase,
+                             "near_identical": is_near},
+            })
     return hit
 
 
@@ -293,6 +319,11 @@ def detect_category_leak(turns, idx, cfg):
     语义级上下文污染：检测本轮回复是否提到了「属于前序任务品类、但不属于本轮任务」
     的品类词。
     例：前一轮点了咖啡，本轮找火锅，回复里却出现「咖啡相关的小程序」。
+
+    关键区分 —— 主题词 vs 污染词：
+      若某品类在「前序指令」里就出现过，说明它是这个复合任务的主题词
+      （如整个用例都在做「错题」工具），不是污染。只有当某品类仅仅出现在
+      前序的「回复」里、从未出现在任何指令里时，才判定为污染。
     """
     hit = []
     reply = turns[idx]["reply"]
@@ -300,22 +331,26 @@ def detect_category_leak(turns, idx, cfg):
         return hit
     reply_low = normalize(reply)
 
-    # 前序任务涉及的品类
-    prior_cats = set()
-    for j in range(idx):
-        pt = (turns[j]["prompt"] or "") + " " + (turns[j]["reply"] or "")
-        for cat, words in CATEGORY_SYNONYMS.items():
-            if any(normalize(w) in normalize(pt) for w in words):
-                prior_cats.add(cat)
-    if not prior_cats:
-        return hit
-
-    # 本轮任务涉及的品类
+    # 本轮任务涉及的品类（以本轮指令为准）
     cur_text = normalize(turns[idx]["prompt"])
     cur_cats = set()
     for cat, words in CATEGORY_SYNONYMS.items():
         if any(normalize(w) in cur_text for w in words):
             cur_cats.add(cat)
+    if not cur_cats:
+        # 本轮指令没提到任何已知品类 → 无法用品类维度判断污染
+        return hit
+
+    # 前序任务涉及的品类（逐轮看该轮自己的指令+回复）
+    prior_cats = set()
+    for j in range(idx):
+        pt = (turns[j]["prompt"] or "") + " " + (turns[j]["reply"] or "")
+        pn = normalize(pt)
+        for cat, words in CATEGORY_SYNONYMS.items():
+            if any(normalize(w) in pn for w in words):
+                prior_cats.add(cat)
+    if not prior_cats:
+        return hit
 
     # 本轮回复里出现的品类
     reply_cats = set()
@@ -327,14 +362,19 @@ def detect_category_leak(turns, idx, cfg):
                 reply_cats.add(cat)
                 matched_words.setdefault(cat, w)
 
-    # 前序有、本轮没有、但回复里出现了 → 污染
-    leaked = (prior_cats - cur_cats) & reply_cats
-    for cat in leaked:
+    # 污染判定：本轮任务属于品类 X（指令明确），
+    #   但回复里同时出现了属于「前序任务」的品类 Y（Y ≠ X），
+    #   说明小微用前序任务的品类去检索/作答了。
+    # 例：第1轮是咖啡任务，第2轮指令要「火锅」，
+    #     但回复里冒出「咖啡相关的小程序」→ 咖啡是前序品类，火锅是本轮品类，冲突。
+    foreign = (prior_cats & reply_cats) - cur_cats
+    for cat in foreign:
         hit.append({
             "type": "context_pollution",
             "severity": "high",
-            "detail": (f"本轮任务未涉及「{cat}」品类，但回复中出现了「{matched_words.get(cat)}」"
-                       f"（该品类属于前序任务），疑似上下文污染"),
+            "detail": (f"本轮任务属于「{'/'.join(sorted(cur_cats))}」品类，"
+                       f"但回复中出现了前序任务的「{matched_words.get(cat)}」（{cat}），"
+                       f"疑似前序上下文污染了本轮检索目标"),
             "evidence": {"category": cat, "matched_word": matched_words.get(cat),
                          "prior_categories": sorted(prior_cats),
                          "current_categories": sorted(cur_cats)},
