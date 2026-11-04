@@ -6,7 +6,6 @@
     "contest": "2026 全国大学生软件测试大赛 · 微信小微 AI 助手评测专项赛",
     "note": "所有参数均可调。QPM 硬上限 16，为赛事红线，不可突破。"
   },
-
   "limits": {
     "qpm": 8,
     "qpm_hard_ceiling": 16,
@@ -17,13 +16,11 @@
     "daily_cap": 300,
     "jitter_sec": 3.0
   },
-
   "memory_profile": {
     "note": "对照实验用。两个微信号：A 账号开记忆，B 账号关记忆。测完立即长按删除对话清上下文。",
     "run_a": "开记忆",
     "run_b": "关记忆"
   },
-
   "drivers": {
     "active": "manual",
     "manual": {
@@ -65,7 +62,6 @@
       "note": "PC 端功能残缺（官方明示落后移动端 1-2 个版本，视频号转发问小微、听一听广场均缺失）。仅作辅助，不作主评测端。"
     }
   },
-
   "analyzer": {
     "enable_context_pollution": true,
     "enable_state_leak": true,
@@ -102,7 +98,6 @@
       "公开分享"
     ]
   },
-
   "report": {
     "output_dir": "data/reports",
     "form_fields": [
@@ -126,7 +121,6 @@
       "D": "不满"
     }
   },
-
   "suite_definitions": {
     "A": "高数错题打卡工具",
     "B": "团务台账整理工具",

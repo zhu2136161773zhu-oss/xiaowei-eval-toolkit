@@ -112,7 +112,7 @@ mr._element.rPr.rFonts.set(qn("w:eastAsia"), "宋体")
 
 info = doc.add_paragraph()
 info.alignment = WD_ALIGN_PARAGRAPH.CENTER
-ir = info.add_run("制作者：xiaowei-eval-toolkit contributors　｜　广东医科大学 电子信息工程与智能医学工程\n"
+ir = info.add_run("2026 全国大学生软件测试大赛 · 微信小微 AI 助手评测专项赛\n"
                    "版本：v1.0　｜　生成日期：2026-11-04")
 ir.font.size = Pt(10)
 ir.font.name = "宋体"
