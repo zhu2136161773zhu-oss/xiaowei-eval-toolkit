@@ -1,0 +1,10 @@
+# 核心依赖
+# 本工具包只依赖 Python 标准库即可运行核心功能（用例生成 + 检测 + Markdown 报告）
+# 以下为可选增强
+
+# 出 Word 报告（report.py --docx）
+python-docx>=1.1.0
+
+# 安卓全自动化采集（run.py --mode uia2）
+# 另需手机开启「开发者选项 → USB 调试」并安装 atx-agent
+uiautomator2>=3.2.0

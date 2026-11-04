@@ -1,0 +1,79 @@
+# ============================================================
+#  小微评测工具包 —— .gitignore
+#  最重要的一条：真实采集数据一律不上传
+#  采集结果里含你与微信好友的真实对话内容，涉及他人隐私。
+# ============================================================
+
+# ---- 真实采集数据（绝对不能提交）----
+data/raw_*.jsonl
+data/shots/
+data/*.jsonl
+data/_verify*
+data/flagged_*.json
+!data/flagged_mock.json
+data/reports/report_*.md
+data/reports/report_*.docx
+!data/reports/report_demo.md
+!data/reports/report_demo.docx
+
+# ---- 本地配置（含个人路径、串号、账号信息）----
+config.local.json
+.env
+.env.*
+*.local.json
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ---- 虚拟环境 ----
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ---- 测试与缓存 ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ---- IDE ----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.bak
+.DS_Store
+Thumbs.db
+
+# ---- 报告输出 ----
+*.log
+report_*.pdf

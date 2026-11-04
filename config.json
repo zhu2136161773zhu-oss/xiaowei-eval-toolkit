@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "name": "小微 AI 助手评测工具包",
+    "version": "1.0.0",
+    "author": "xiaowei-eval-toolkit contributors",
+    "contest": "2026 全国大学生软件测试大赛 · 微信小微 AI 助手评测专项赛",
+    "note": "所有参数均可调。QPM 硬上限 16，为赛事红线，不可突破。"
+  },
+
+  "limits": {
+    "qpm": 8,
+    "qpm_hard_ceiling": 16,
+    "min_interval_sec": 5.0,
+    "max_interval_sec": 12.0,
+    "request_timeout_sec": 90,
+    "max_retries": 2,
+    "daily_cap": 300,
+    "jitter_sec": 3.0
+  },
+
+  "memory_profile": {
+    "note": "对照实验用。两个微信号：A 账号开记忆，B 账号关记忆。测完立即长按删除对话清上下文。",
+    "run_a": "开记忆",
+    "run_b": "关记忆"
+  },
+
+  "drivers": {
+    "active": "manual",
+    "manual": {
+      "enabled": true,
+      "clipboard_echo": true,
+      "prompt_mode": "console",
+      "instruction": "把剪贴板内容粘贴到小微输入框，发送后复制小微回复，粘贴回本终端（Ctrl+V）并回车。"
+    },
+    "uia2": {
+      "enabled": false,
+      "serial": null,
+      "package_name": "com.tencent.mm",
+      "wechat_entry": {
+        "method": "click_left_eyes",
+        "ratio_x": 0.088,
+        "ratio_y": 0.042,
+        "note": "负一屏入口：微信主界面左上角绿色小眼睛。ratio 为相对屏幕坐标，实际以 debug_probe 输出为准。"
+      },
+      "input_box": {
+        "method": "resource_id_or_text",
+        "resource_id": "com.tencent.mm:id/fo",
+        "fallback_text": "发送"
+      },
+      "reply_region": {
+        "method": "auto_textview",
+        "exclude_resource_ids": [
+          "com.tencent.mm:id/hz",
+          "com.tencent.mm:id/fo"
+        ],
+        "note": "自动从 hierarchy XML 中挑选聊天气泡文本节点，按 y 坐标升序取最近若干条。"
+      },
+      "chinese_input": {
+        "mode": "clipboard_paste",
+        "note": "adb input text 不支持中文。默认用剪贴板 + 长按粘贴；set_text 可用时优先。"
+      }
+    },
+    "pc_wechat": {
+      "enabled": false,
+      "note": "PC 端功能残缺（官方明示落后移动端 1-2 个版本，视频号转发问小微、听一听广场均缺失）。仅作辅助，不作主评测端。"
+    }
+  },
+
+  "analyzer": {
+    "enable_context_pollution": true,
+    "enable_state_leak": true,
+    "enable_constraint_drop": true,
+    "enable_vague_failure": true,
+    "enable_hallucination_number": true,
+    "enable_answer_flip": true,
+    "enable_overclaim": true,
+    "shingle_size": 3,
+    "state_leak_threshold": 0.34,
+    "constraint_min_len": 2,
+    "vague_phrases": [
+      "接口暂时出了点小状况",
+      "检索到的都是",
+      "系统暂时不支持",
+      "暂时无法支持",
+      "建议您手动",
+      "需要您手动",
+      "请您手动",
+      "出了点小状况",
+      "没有找到合适",
+      "没有匹配到",
+      "不太方便"
+    ],
+    "overclaim_targets": [
+      "群红包",
+      "批量发送",
+      "群发",
+      "定时发送到群",
+      "查询群成员",
+      "共同群聊",
+      "延时发送",
+      "分享小工具",
+      "公开分享"
+    ]
+  },
+
+  "report": {
+    "output_dir": "data/reports",
+    "form_fields": [
+      "issue_name",
+      "one_line_summary",
+      "entry",
+      "entry_detail",
+      "turn_count",
+      "expected",
+      "actual",
+      "analysis",
+      "satisfaction",
+      "score_reason",
+      "reproducibility",
+      "repro_steps"
+    ],
+    "satisfaction_scale": {
+      "A": "超出预期",
+      "B": "正常完成",
+      "C": "略有不满",
+      "D": "不满"
+    }
+  },
+
+  "suite_definitions": {
+    "A": "高数错题打卡工具",
+    "B": "团务台账整理工具",
+    "C": "实验数据转报告链路",
+    "D": "生理体征随访工具",
+    "E": "评测记录与自动化脚本",
+    "F": "本地 AI 速查小工具"
+  }
+}

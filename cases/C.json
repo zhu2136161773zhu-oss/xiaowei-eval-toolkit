@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-11-04T12:52:40",
+  "suite": "C",
+  "playbook": "all",
+  "entry": "negative_one_screen",
+  "entry_label": "负一屏入口（微信主界面左上角绿色小眼睛）",
+  "count": 12,
+  "cases": [
+    {
+      "case_id": "C-C001",
+      "suite": "C",
+      "playbook": "compound",
+      "title": "复合：读 Excel → 画图 → 解读 → PDF",
+      "turns": [
+        "我发你一份实验测量数据，帮我读一下并画一张折线图。",
+        "找出数据里偏离正常范围的那些点，说说可能是什么原因。",
+        "把分析和图表整理成一份 PDF 实验报告。",
+        "再建一个实验记录打卡工具，每次做完实验都记一次。"
+      ],
+      "expected": "文件解析 → 图表生成 → 异常分析 → PDF → 工具，五步全链路。",
+      "checkpoints": [
+        "Excel 解析是否准确",
+        "图表类型与数据映射",
+        "异常点判定是否有依据",
+        "PDF 生成耗时",
+        "工具是否落地"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "复合需求"
+      ]
+    },
+    {
+      "case_id": "C-C002",
+      "suite": "C",
+      "playbook": "compound",
+      "title": "复合：读论文 PDF → 总结 → 笔记 → 工具",
+      "turns": [
+        "我发你一篇 PDF 论文，帮我总结主要方法和结论。",
+        "把关键点整理进我的微信收藏笔记。",
+        "再帮我做一个论文阅读打卡工具，记录每篇的摘要和状态。",
+        "最后给我画一张已读论文的进度饼图。"
+      ],
+      "expected": "官方示例同款链路（找文章→总结→PDF→打卡→提醒）的变体。",
+      "checkpoints": [
+        "PDF 总结准确度",
+        "收藏笔记写入",
+        "工具字段落地",
+        "图表数据来源"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "复合需求"
+      ]
+    },
+    {
+      "case_id": "C-P003",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：图表类型",
+      "turns": [
+        "把这份数据画成一张柱状图。"
+      ],
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "chart"
+      ]
+    },
+    {
+      "case_id": "C-P004",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：图表类型",
+      "turns": [
+        "把这份数据画成一张折线图。"
+      ],
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "chart"
+      ]
+    },
+    {
+      "case_id": "C-P005",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：图表类型",
+      "turns": [
+        "把这份数据画成一张饼图。"
+      ],
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "chart"
+      ]
+    },
+    {
+      "case_id": "C-P006",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：图表类型",
+      "turns": [
+        "把这份数据画成一张流程图。"
+      ],
+      "expected": "不同图表类型被正确应用，饼图用于构成比、折线用于趋势。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "chart"
+      ]
+    },
+    {
+      "case_id": "C-P007",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：统计口径与比例",
+      "turns": [
+        "帮我算一下这组数据的10%分位数并标注在图上。"
+      ],
+      "expected": "数值计算准确，标注位置正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "ratio"
+      ]
+    },
+    {
+      "case_id": "C-P008",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：统计口径与比例",
+      "turns": [
+        "帮我算一下这组数据的30%分位数并标注在图上。"
+      ],
+      "expected": "数值计算准确，标注位置正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "ratio"
+      ]
+    },
+    {
+      "case_id": "C-P009",
+      "suite": "C",
+      "playbook": "param",
+      "title": "变参：统计口径与比例",
+      "turns": [
+        "帮我算一下这组数据的50%分位数并标注在图上。"
+      ],
+      "expected": "数值计算准确，标注位置正确。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "ratio"
+      ]
+    },
+    {
+      "case_id": "C-M010",
+      "suite": "C",
+      "playbook": "multi_turn",
+      "title": "多轮改条件：改分析口径",
+      "turns": [
+        "我发你一份实验数据，帮我画折线图。",
+        "改成柱状图，并且把均值那条线也画上去。",
+        "横轴改成采样序号，单位标注成毫伏。",
+        "再单独把第三通道的数据放大画一张。"
+      ],
+      "expected": "多轮图表迭代，每轮修改都被吸收且不丢失之前设定。",
+      "checkpoints": [
+        "图表类型切换",
+        "参考线是否保留",
+        "轴标签是否更新",
+        "多次生成耗时"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "多轮改条件"
+      ]
+    },
+    {
+      "case_id": "C-B011",
+      "suite": "C",
+      "playbook": "boundary",
+      "title": "边界：多端同步",
+      "turns": [
+        "我在电脑上问的这些分析，手机上打开小微能看到吗？"
+      ],
+      "expected": "需在「设置 → 记忆与隐私」开启「自动同步」，否则不同步。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ]
+    },
+    {
+      "case_id": "C-B012",
+      "suite": "C",
+      "playbook": "boundary",
+      "title": "边界：读本地 Excel 后长期留存",
+      "turns": [
+        "这份实验数据你读完会保存下来吗？会拿去训练模型吗？"
+      ],
+      "expected": "明确说明终端本地读取、用完即弃、不保存不用于训练。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ]
+    }
+  ]
+}

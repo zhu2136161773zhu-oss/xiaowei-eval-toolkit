@@ -1,0 +1,114 @@
+{
+  "generated_at": "2026-11-04T12:52:41",
+  "suite": "F",
+  "playbook": "all",
+  "entry": "negative_one_screen",
+  "entry_label": "负一屏入口（微信主界面左上角绿色小眼睛）",
+  "count": 6,
+  "cases": [
+    {
+      "case_id": "F-C001",
+      "suite": "F",
+      "playbook": "compound",
+      "title": "复合：模型参数表 → 换算 → 提醒",
+      "turns": [
+        "做一个本地大模型参数速查小工具，能记录模型名、参数量、量化方式和显存占用。",
+        "再加一个换算功能，把参数量和典型显存占用做对照。",
+        "最后设一个每天晚上提醒我记录测试结果的定时任务。"
+      ],
+      "expected": "工具 + 计算 + 提醒三合一。",
+      "checkpoints": [
+        "字段落地",
+        "换算数值正确",
+        "提醒触发方式"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "复合需求"
+      ]
+    },
+    {
+      "case_id": "F-P002",
+      "suite": "F",
+      "playbook": "param",
+      "title": "变参：量化与单位",
+      "turns": [
+        "记录一下 qwen3:4b，Q4_K_M。"
+      ],
+      "expected": "参数原样录入不被改写。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "model",
+        "quant"
+      ]
+    },
+    {
+      "case_id": "F-P003",
+      "suite": "F",
+      "playbook": "param",
+      "title": "变参：量化与单位",
+      "turns": [
+        "记录一下 qwen3:8b，Q5_K_M。"
+      ],
+      "expected": "参数原样录入不被改写。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "model",
+        "quant"
+      ]
+    },
+    {
+      "case_id": "F-P004",
+      "suite": "F",
+      "playbook": "param",
+      "title": "变参：量化与单位",
+      "turns": [
+        "记录一下 llama3.1:7b，FP16。"
+      ],
+      "expected": "参数原样录入不被改写。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "model",
+        "quant"
+      ]
+    },
+    {
+      "case_id": "F-P005",
+      "suite": "F",
+      "playbook": "param",
+      "title": "变参：量化与单位",
+      "turns": [
+        "记录一下 gemma2:9b，int8。"
+      ],
+      "expected": "参数原样录入不被改写。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "model",
+        "quant"
+      ]
+    },
+    {
+      "case_id": "F-B006",
+      "suite": "F",
+      "playbook": "boundary",
+      "title": "边界：小游戏类工具",
+      "turns": [
+        "帮我做一个类似跳一跳的小游戏工具。"
+      ],
+      "expected": "小工具平台不支持小游戏、棋牌、对战、剧情互动类。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ]
+    }
+  ]
+}

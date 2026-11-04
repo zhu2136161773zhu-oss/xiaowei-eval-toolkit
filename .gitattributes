@@ -1,0 +1,19 @@
+# 统一换行符，避免 Windows / Linux 混合环境下的无谓 diff
+* text=auto eol=lf
+
+# Python 脚本按 LF 存
+*.py text eol=lf
+
+# 文本配置
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.txt text eol=lf
+
+# 二进制文件不做换行转换
+*.docx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.zip binary

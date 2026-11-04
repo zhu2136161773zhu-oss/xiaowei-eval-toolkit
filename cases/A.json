@@ -1,0 +1,355 @@
+{
+  "generated_at": "2026-11-04T12:52:40",
+  "suite": "A",
+  "playbook": "all",
+  "entry": "negative_one_screen",
+  "entry_label": "负一屏入口（微信主界面左上角绿色小眼睛）",
+  "count": 20,
+  "cases": [
+    {
+      "case_id": "A-C001",
+      "suite": "A",
+      "playbook": "compound",
+      "title": "复合：生成错题本 → 加功能 → 转图表 → 设定时提醒",
+      "turns": [
+        "帮我做一个高数错题打卡工具，可以记录题号、错因和正确率。",
+        "再加上艾宾浩斯复习提醒，按 1 天、3 天、7 天、15 天的间隔来提醒我复习。",
+        "再把错题按错因分类统计，给我画一张柱状图。",
+        "最后把今天的复习计划整理成一份待办，每天晚上 21:00 提醒我。"
+      ],
+      "expected": "四步全部完成，工具含错因分类与复习间隔，提醒为纯时间索引。",
+      "checkpoints": [
+        "工具生成成功率",
+        "追加功能是否被拒",
+        "图表数据是否与输入一致",
+        "提醒是否按纯时间触发"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "复合需求"
+      ]
+    },
+    {
+      "case_id": "A-C002",
+      "suite": "A",
+      "playbook": "compound",
+      "title": "复合：错题工具 + 文件解析 + PDF",
+      "turns": [
+        "帮我做一个错题记录小工具。",
+        "我发你一张错题照片，你帮我把题目和我的解答识别出来填进去。",
+        "把这周的错题整理成一份 PDF 复习资料。"
+      ],
+      "expected": "图片 OCR 识别 → 回填工具 → 生成 PDF 全链路。",
+      "checkpoints": [
+        "图片识别准确率",
+        "跨能力串联是否断链",
+        "PDF 是否生成"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "复合需求"
+      ]
+    },
+    {
+      "case_id": "A-P003",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：工具名称与字段变体",
+      "turns": [
+        "帮我做一个错题本小工具，记录题号和错因。"
+      ],
+      "expected": "不同表述都能正确理解，字段落到界面上。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "name",
+        "fields"
+      ]
+    },
+    {
+      "case_id": "A-P004",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：工具名称与字段变体",
+      "turns": [
+        "帮我做一个刷题记录小工具，记录题目、我的答案和正确率。"
+      ],
+      "expected": "不同表述都能正确理解，字段落到界面上。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "name",
+        "fields"
+      ]
+    },
+    {
+      "case_id": "A-P005",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：工具名称与字段变体",
+      "turns": [
+        "帮我做一个公式默写本小工具，记录知识点和掌握度。"
+      ],
+      "expected": "不同表述都能正确理解，字段落到界面上。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "name",
+        "fields"
+      ]
+    },
+    {
+      "case_id": "A-P006",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，1 分钟后提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P007",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，10 分钟后提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P008",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，1 天后提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P009",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，3 天后提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P010",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，下周一早上提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P011",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，今晚 21:00提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P012",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：提醒时间跨度",
+      "turns": [
+        "做一个错题打卡工具，这周末提醒我复习。"
+      ],
+      "expected": "相对时间被正确解析为绝对时刻。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "time"
+      ]
+    },
+    {
+      "case_id": "A-P013",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：模糊表述",
+      "turns": [
+        "高数"
+      ],
+      "expected": "无法确定时应主动反问澄清，而非答非所问。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "vague"
+      ]
+    },
+    {
+      "case_id": "A-P014",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：模糊表述",
+      "turns": [
+        "错题"
+      ],
+      "expected": "无法确定时应主动反问澄清，而非答非所问。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "vague"
+      ]
+    },
+    {
+      "case_id": "A-P015",
+      "suite": "A",
+      "playbook": "param",
+      "title": "变参：模糊表述",
+      "turns": [
+        "那个打卡的东西"
+      ],
+      "expected": "无法确定时应主动反问澄清，而非答非所问。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "变参",
+        "vague"
+      ]
+    },
+    {
+      "case_id": "A-M016",
+      "suite": "A",
+      "playbook": "multi_turn",
+      "title": "多轮改条件：改人数 → 改预算 → 改目标",
+      "turns": [
+        "帮我规划周末广州三个人的短途路线，人均 300 元以内，然后把行程整理成一张图。",
+        "改成五个人了，人数变成 5 个。",
+        "预算再降一点，降到人均 200 以内。",
+        "我们都不太想爬山了，把登山那项换成一个室内的地方。",
+        "最后帮我把整个行程发到我们班群。"
+      ],
+      "expected": "每次修改都应被正确吸收，最后一步涉及发送需用户确认。",
+      "checkpoints": [
+        "人数是否更新",
+        "预算约束是否更新",
+        "偏好是否被记住",
+        "发送前是否确认"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "多轮改条件"
+      ]
+    },
+    {
+      "case_id": "A-M017",
+      "suite": "A",
+      "playbook": "multi_turn",
+      "title": "多轮改条件：改工具本身",
+      "turns": [
+        "做一个早睡打卡本，记录每天的入睡时间和睡眠时长。",
+        "改成 23:30 之前睡觉算达标，达标线可以自己改。",
+        "再加一个连续打卡天数的统计。"
+      ],
+      "expected": "已有工具追加功能属已知边界，应明确说明并给出整合版方案。",
+      "checkpoints": [
+        "是否明确说明不支持追加",
+        "是否给出可行替代",
+        "生成耗时是否可接受"
+      ],
+      "entry": "negative_one_screen",
+      "tags": [
+        "多轮改条件"
+      ]
+    },
+    {
+      "case_id": "A-B018",
+      "suite": "A",
+      "playbook": "boundary",
+      "title": "边界：小工具对外分享",
+      "turns": [
+        "做完这个错题工具后，能分享给同学一起用吗？"
+      ],
+      "expected": "明确说明当前为个人工具、不支持对外分享（官方明示边界，属洞察非 Bad Case）。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ]
+    },
+    {
+      "case_id": "A-B019",
+      "suite": "A",
+      "playbook": "boundary",
+      "title": "边界：按事件条件触发提醒",
+      "turns": [
+        "当我的错题数量超过 30 个的时候，提醒我整理一次。"
+      ],
+      "expected": "定时任务只支持纯时间索引，应说明无法按事件条件触发。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ]
+    },
+    {
+      "case_id": "A-B020",
+      "suite": "A",
+      "playbook": "boundary",
+      "title": "边界：联网获取题库",
+      "turns": [
+        "这个错题工具能联网去题库网站抓题目吗？"
+      ],
+      "expected": "小工具运行在微信客户端本地、不支持联网，应明确说明。",
+      "checkpoints": [],
+      "entry": "negative_one_screen",
+      "tags": [
+        "边界探测"
+      ]
+    }
+  ]
+}
