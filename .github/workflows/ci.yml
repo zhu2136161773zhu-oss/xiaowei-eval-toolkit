@@ -14,6 +14,9 @@ jobs:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         python-version: [ "3.8", "3.11" ]
+    env:
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: "utf-8"
 
     steps:
       - uses: actions/checkout@v4
@@ -28,54 +31,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 语法检查
-        run: |
-          python -c "
-          import ast, sys, pathlib
-          files = ['gen_cases.py','run.py','analyze.py','report.py','pipeline.py','make_manual.py']
-          bad = []
-          for f in files:
-              try:
-                  ast.parse(pathlib.Path(f).read_text(encoding='utf-8'))
-              except SyntaxError as e:
-                  bad.append(f'{f}: {e}')
-          if bad:
-              print('语法错误:'); [print(' ', b) for b in bad]; sys.exit(1)
-          print('全部文件语法通过')
-          "
+      - name: 运行项目自检
+        run: python selftest.py
 
-      - name: 生成用例
-        run: python gen_cases.py --suite all --out cases/ci_test.json
-
-      - name: 校验用例结构
+      - name: 端到端冒烟测试
         run: |
-          python -c "
-          import json, sys
-          d = json.load(open('cases/ci_test.json', encoding='utf-8'))
-          assert d['count'] == len(d['cases']), '用例计数不一致'
-          assert d['count'] >= 70, f'用例数量异常: {d[\"count\"]}'
-          for c in d['cases']:
-              assert c['case_id'], '缺少 case_id'
-              assert c['turns'], f'{c[\"case_id\"]} 没有 turn'
-              assert c['expected'], f'{c[\"case_id\"]} 缺少 expected'
-          print(f'用例结构校验通过，共 {d[\"count\"]} 条')
-          "
-
-      - name: 检测器自测
-        run: |
+          python gen_cases.py --suite all --out cases/ci_test.json
           python analyze.py --input data/mock_sample.jsonl --config config.json --out data/ci_flagged.json
-          python -c "
-          import json, sys
-          d = json.load(open('data/ci_flagged.json', encoding='utf-8'))
-          assert d['flagged_cases'] >= 3, f'检出异常数异常: {d[\"flagged_cases\"]}'
-          types = {f['type'] for r in d['results'] for f in r['flags']}
-          for need in ['context_pollution','constraint_drop','vague_failure','overclaim']:
-              assert need in types, f'检测器未命中预期类型: {need}'
-          print('检测器自测通过，命中类型:', sorted(types))
-          "
-
-      - name: 生成报告
-        run: python report.py --input data/ci_flagged.json --config config.json --out data/reports/ci.md
+          python report.py --input data/ci_flagged.json --config config.json --out data/reports/ci.md
 
       - name: 清理测试产物
         if: always()

@@ -16,6 +16,9 @@ data/reports/report_*.docx
 !data/reports/report_demo.md
 !data/reports/report_demo.docx
 
+# 自测夹具是合成的假数据（不含任何真实对话），必须入库供 CI 使用
+!data/mock_sample.jsonl
+
 # ---- 本地配置（含个人路径、串号、账号信息）----
 config.local.json
 .env
