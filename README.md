@@ -7,6 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![赛事](https://img.shields.io/badge/赛事-软件测试大赛-orange.svg)](https://www.mooctest.org/)
+[![自检](https://github.com/zhu2136161773zhu-oss/xiaowei-eval-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/zhu2136161773zhu-oss/xiaowei-eval-toolkit/actions/workflows/ci.yml)
 
 把「人工一条条手测」变成「批量生成 → 自动筛查 → 人工复核」
 
@@ -52,7 +53,7 @@
 - 可选：`pip install -r requirements.txt` 解锁 Word 报告与安卓自动化
 
 ```bash
-git clone https://github.com/your-name/xiaowei-eval-toolkit.git
+git clone https://github.com/zhu2136161773zhu-oss/xiaowei-eval-toolkit.git
 cd xiaowei-eval-toolkit
 ```
 
