@@ -80,7 +80,7 @@ python pipeline.py report --raw data/raw_A.jsonl --suite A --docx   # 出 Word
 │
 ├── gen_cases.py   用例生成器 ─── 按官方四条打法批量生成测试用例
 │      │
-│      └── cases/*.json   A–F 六套 + all 汇总，共 80 条
+│      └── cases/*.json   A–F 六套 + all 汇总，共 129 条
 │
 ├── run.py         采集驱动器 ─── 手动 / 持续循环 / 安卓全自动化
 │      │
@@ -128,7 +128,7 @@ python pipeline.py report --raw data/raw_A.jsonl --suite A --docx   # 出 Word
 需要提前准备文件素材的用例，终端会在用例标题下方用 `⚠ 前置准备` 标出，
 照着做就行（用「文件传输助手」把文件发到聊天窗口即可）。
 
-> **别一次全跑。** 宁可把 A 套 20 条跑透、报告写扎实，也不要 80 条都测得浅。
+> **别一次全跑。** 宁可把 A 套跑透、报告写扎实，也不要 129 条都测得浅。
 > 官方评审关注的是「问题发现 + 场景设计 + 逻辑分析 + 报告质量」。
 
 ---

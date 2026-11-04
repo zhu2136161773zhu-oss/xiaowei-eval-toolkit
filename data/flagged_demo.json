@@ -1,10 +1,10 @@
 {
-  "analyzed_at": "2026-11-04T13:53:00",
-  "total_cases": 7,
-  "flagged_cases": 3,
+  "analyzed_at": "2026-11-04T14:28:11",
+  "total_cases": 4,
+  "flagged_cases": 2,
   "results": [
     {
-      "case_id": "X-DEMO-001",
+      "case_id": "DEMO-C002",
       "suite": "A",
       "playbook": "compound",
       "title": "演示用：预算约束丢失 + 品类串台",
@@ -60,28 +60,28 @@
           "prompt": "帮我点一杯瑞幸的生椰拿铁去冰",
           "reply": "好的，已经帮你调起瑞幸小程序，选好了生椰拿铁去冰，现在停在订单确认页。",
           "skipped": false,
-          "ts": "2026-11-04T14:00:00"
+          "ts": "2026-11-04T15:05:00"
         },
         {
           "index": 1,
           "prompt": "再帮我在附近找一家评分4.5分以上的火锅店",
           "reply": "抱歉，检索到的都是咖啡相关的小程序，没有匹配到合适的结果，建议您手动打开大众点评。",
           "skipped": false,
-          "ts": "2026-11-04T14:00:40"
+          "ts": "2026-11-04T15:05:40"
         },
         {
           "index": 2,
           "prompt": "跟光头强发消息说今天不想加班，语气委婉一点",
           "reply": "可以出发了",
           "skipped": false,
-          "ts": "2026-11-04T14:01:20"
+          "ts": "2026-11-04T15:06:20"
         }
       ],
       "suggestion": "上下文污染：建议把该子任务单独发给小微，若单发正常，则问题定位在复合指令的任务编排层，而非该能力本身。"
     },
     {
-      "case_id": "X-DEMO-002",
-      "suite": "A",
+      "case_id": "DEMO-B001",
+      "suite": "B",
       "playbook": "compound",
       "title": "演示用：预算上限理解错 + 幻觉数值",
       "expected": "应筛出 500 元以下的酒店",
@@ -124,57 +124,10 @@
           "prompt": "帮我找广州能住的酒店，500元以下",
           "reply": "好的，为你找到几家广州的酒店，价格在400元以上的高端房型，平均每晚 680 元，可以看看。",
           "skipped": false,
-          "ts": "2026-11-04T14:05:00"
+          "ts": "2026-11-04T15:10:00"
         }
       ],
       "suggestion": "参数透传断链：建议改写指令为显式重复关键约束后重发，若仍丢失则确认为约束保持缺陷。"
-    },
-    {
-      "case_id": "A-C002",
-      "suite": "A",
-      "playbook": "compound",
-      "title": "复合：错题工具 + 文件解析 + PDF",
-      "expected": "图片 OCR 识别 → 回填工具 → 生成 PDF 全链路",
-      "entry": "negative_one_screen",
-      "turn_count": 3,
-      "flag_count": 1,
-      "max_severity": "medium",
-      "flags": [
-        {
-          "type": "context_pollution",
-          "severity": "medium",
-          "detail": "本轮回复中出现了前序（第 1 轮）的文本片段「错题记录本」，该片段并未出现在本轮指令中，疑似上下文污染",
-          "evidence": {
-            "leaked_from_turn": 1,
-            "matched_phrase": "错题记录本",
-            "match_len": 5
-          }
-        }
-      ],
-      "turns": [
-        {
-          "index": 0,
-          "prompt": "帮我做一个错题记录小工具。",
-          "reply": "已经为你生成「错题记录本」小工具，可以记录题目、我的解答和错因。",
-          "skipped": false,
-          "ts": "2026-11-04T13:52:00"
-        },
-        {
-          "index": 1,
-          "prompt": "我发你一张错题照片，你帮我把题目和我的解答识别出来填进去。",
-          "reply": "图片已识别完成：题目是「求 ∫₀^π x·sin x dx」，你的解答写了「分部积分 = -x·cos x + sin x，代入得 π」。已帮你填入错题记录本的对应字段。",
-          "skipped": false,
-          "ts": "2026-11-04T13:52:40"
-        },
-        {
-          "index": 2,
-          "prompt": "把这周的错题整理成一份 PDF 复习资料。",
-          "reply": "已经生成本周错题 PDF 复习资料，包含 12 道错题的题目、解答、错因分类，以及一张错因分布柱状图和按复习周期的建议复习时间表。",
-          "skipped": false,
-          "ts": "2026-11-04T13:53:20"
-        }
-      ],
-      "suggestion": "上下文污染：建议把该子任务单独发给小微，若单发正常，则问题定位在复合指令的任务编排层，而非该能力本身。"
     }
   ]
 }
